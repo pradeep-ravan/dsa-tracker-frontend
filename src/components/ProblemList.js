@@ -19,21 +19,17 @@ const ProblemList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        // Fetch topic details
-        const topicResponse = await topicAPI.getById(topicId);
-        setTopic(topicResponse.data);
+        const topicResponse = await topicAPI?.getById(topicId);
+        setTopic(topicResponse?.data);
 
-        // Fetch problems for this topic
-        const problemsResponse = await problemAPI.getByTopic(topicId);
-        setProblems(problemsResponse.data);
+        const problemsResponse = await problemAPI?.getByTopic(topicId);
+        setProblems(problemsResponse?.data);
 
-        // Fetch user progress for this topic
-        const progressResponse = await progressAPI.getByTopic(topicId);
+        const progressResponse = await progressAPI?.getByTopic(topicId);
 
-        // Convert progress array to a map for easy lookup
         const progressMap = {};
-        progressResponse.data.forEach(item => {
-          progressMap[item.problemId] = item.completed;
+        progressResponse?.data?.forEach(item => {
+          progressMap[item.problemId] = item?.completed;
         });
 
         setProgress(progressMap);
@@ -51,7 +47,7 @@ const ProblemList = () => {
 
   const handleToggleStatus = async (problemId) => {
     try {
-      await progressAPI.toggleStatus(problemId);
+      await progressAPI?.toggleStatus(problemId);
 
       // Update local state
       setProgress(prev => ({
@@ -83,34 +79,34 @@ const ProblemList = () => {
     <div className="container mx-auto px-4 py-6">
       {topic && (
         <div className="mb-6">
-          <h1 className="text-3xl font-bold mb-2">{topic.name}</h1>
-          <p className="text-gray-600">{topic.description}</p>
+          <h1 className="text-3xl font-bold mb-2">{topic?.name}</h1>
+          <p className="text-gray-600">{topic?.description}</p>
         </div>
       )}
 
-      {problems.length === 0 ? (
+      {problems?.length === 0 ? (
         <p className="text-gray-500">No problems available for this topic yet.</p>
       ) : (
         <div className="space-y-4">
-          {problems.map((problem) => (
-            <div key={problem._id} className="border rounded-lg overflow-hidden shadow-sm">
+          {problems?.map((problem) => (
+            <div key={problem?._id} className="border rounded-lg overflow-hidden shadow-sm">
               <div className="p-4 bg-white">
                 <div className="flex justify-between items-start">
                   <div>
                     <div className="flex items-center">
-                      <h2 className="text-xl font-semibold text-gray-900">{problem.title}</h2>
-                      <span className={`ml-2 px-2 py-1 text-xs font-medium rounded-full ${getDifficultyClass(problem.difficulty)}`}>
-                        {problem.difficulty}
+                      <h2 className="text-xl font-semibold text-gray-900">{problem?.title}</h2>
+                      <span className={`ml-2 px-2 py-1 text-xs font-medium rounded-full ${getDifficultyClass(problem?.difficulty)}`}>
+                        {problem?.difficulty}
                       </span>
                     </div>
-                    <p className="mt-1 text-gray-600">{problem.description}</p>
+                    <p className="mt-1 text-gray-600">{problem?.description}</p>
                   </div>
                   <div className="flex items-center">
                     <label className="flex items-center cursor-pointer">
                       <input
                         type="checkbox"
-                        checked={progress[problem._id] || false}
-                        onChange={() => handleToggleStatus(problem._id)}
+                        checked={progress[problem?._id] || false}
+                        onChange={() => handleToggleStatus(problem?._id)}
                         className="h-4 w-4 text-indigo-600 focus:ring-indigo-500 border-gray-300 rounded"
                       />
                       <span className="ml-2 text-sm text-gray-600">Completed</span>
@@ -119,9 +115,9 @@ const ProblemList = () => {
                 </div>
 
                 <div className="mt-4 flex flex-wrap gap-2">
-                  {problem.youtubeLink && (
+                  {problem?.youtubeLink && (
                     <a
-                      href={problem.youtubeLink}
+                      href={problem?.youtubeLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center px-3 py-1 bg-red-100 text-red-700 rounded-full text-sm"
@@ -131,9 +127,9 @@ const ProblemList = () => {
                     </a>
                   )}
 
-                  {problem.leetcodeLink && (
+                  {problem?.leetcodeLink && (
                     <a
-                      href={problem.leetcodeLink}
+                      href={problem?.leetcodeLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center px-3 py-1 bg-yellow-100 text-yellow-700 rounded-full text-sm"
@@ -143,9 +139,9 @@ const ProblemList = () => {
                     </a>
                   )}
 
-                  {problem.codeforceLink && (
+                  {problem?.codeforceLink && (
                     <a
-                      href={problem.codeforceLink}
+                      href={problem?.codeforceLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-sm"
@@ -157,9 +153,9 @@ const ProblemList = () => {
                     </a>
                   )}
 
-                  {problem.articleLink && (
+                  {problem?.articleLink && (
                     <a
-                      href={problem.articleLink}
+                      href={problem?.articleLink}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="inline-flex items-center px-3 py-1 bg-indigo-100 text-indigo-700 rounded-full text-sm"

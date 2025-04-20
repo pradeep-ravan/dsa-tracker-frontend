@@ -9,14 +9,13 @@ const TopicPage = () => {
   const navigate = useNavigate();
   
   useEffect(() => {
-    // Redirect to login if not authenticated
     if (!loading && !user) {
       navigate('/login');
     }
   }, [user, loading, navigate]);
   
   if (loading) return <div className="text-center p-8">Loading...</div>;
-  if (!user) return null; // Will redirect in useEffect
+  if (!user) return null;
   
   return (
     <div className="bg-gray-50 min-h-screen">

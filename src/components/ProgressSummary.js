@@ -12,41 +12,39 @@ const ProgressSummary = () => {
   useEffect(() => {
     const fetchStats = async () => {
       try {
-        // Get all user progress
-        const progressResponse = await progressAPI.getAll();
-        const userProgress = progressResponse.data;
+        const progressResponse = await progressAPI?.getAll();
+        const userProgress = progressResponse?.data;
         
-        // Get all problems
-        const problemsResponse = await problemAPI.getAll();
-        const allProblems = problemsResponse.data;
+        const problemsResponse = await problemAPI?.getAll();
+        const allProblems = problemsResponse?.data;
         
-        // Get all topics
-        const topicsResponse = await topicAPI.getAll();
-        const allTopics = topicsResponse.data;
+        //
+        const topicsResponse = await topicAPI?.getAll();
+        const allTopics = topicsResponse?.data;
         
         // Calculate overall progress
-        const completedProblems = userProgress.filter(p => p.completed).length;
+        const completedProblems = userProgress?.filter(p => p.completed)?.length;
         
         // Calculate progress by topic
-        const topicsProgress = allTopics.map(topic => {
-          const topicProblems = allProblems.filter(p => p.topicId === topic._id);
-          const completedTopicProblems = userProgress.filter(
-            p => p.completed && topicProblems.some(tp => tp._id === p.problemId)
-          ).length;
+        const topicsProgress = allTopics?.map(topic => {
+          const topicProblems = allProblems?.filter(p => p?.topicId === topic?._id);
+          const completedTopicProblems = userProgress?.filter(
+            p => p?.completed && topicProblems?.some(tp => tp?._id === p?.problemId)
+          )?.length;
           
           return {
-            _id: topic._id,
-            name: topic.name,
-            total: topicProblems.length,
+            _id: topic?._id,
+            name: topic?.name,
+            total: topicProblems?.length,
             completed: completedTopicProblems,
-            percentage: topicProblems.length > 0 
-              ? Math.round((completedTopicProblems / topicProblems.length) * 100) 
+            percentage: topicProblems?.length > 0 
+              ? Math?.round((completedTopicProblems / topicProblems?.length) * 100) 
               : 0
           };
         });
         
         setStats({
-          totalProblems: allProblems.length,
+          totalProblems: allProblems?.length,
           completedProblems,
           topicsProgress
         });
@@ -71,34 +69,34 @@ const ProgressSummary = () => {
         <div className="flex justify-between mb-1">
           <h3 className="text-sm font-medium">Overall Progress</h3>
           <span className="text-sm font-medium">
-            {Math.round((stats.completedProblems / stats.totalProblems) * 100) || 0}%
+            {Math.round((stats?.completedProblems / stats?.totalProblems) * 100) || 0}%
           </span>
         </div>
         <div className="w-full bg-gray-200 rounded-full h-2.5">
           <div 
             className="bg-indigo-600 h-2.5 rounded-full" 
-            style={{ width: `${Math.round((stats.completedProblems / stats.totalProblems) * 100) || 0}%` }}
+            style={{ width: `${Math.round((stats?.completedProblems / stats?.totalProblems) * 100) || 0}%` }}
           ></div>
         </div>
         <p className="mt-1 text-xs text-gray-500">
-          {stats.completedProblems} of {stats.totalProblems} problems completed
+          {stats?.completedProblems} of {stats?.totalProblems} problems completed
         </p>
       </div>
 
       <h3 className="text-sm font-medium mb-3">Progress by Topic</h3>
       <div className="space-y-4">
-        {stats.topicsProgress.map(topic => (
-          <div key={topic._id}>
+        {stats?.topicsProgress.map(topic => (
+          <div key={topic?._id}>
             <div className="flex justify-between mb-1">
-              <span className="text-sm font-medium text-gray-700">{topic.name}</span>
+              <span className="text-sm font-medium text-gray-700">{topic?.name}</span>
               <span className="text-sm font-medium text-gray-700">
-                {topic.completed}/{topic.total}
+                {topic?.completed}/{topic?.total}
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-1.5">
               <div 
                 className="bg-green-500 h-1.5 rounded-full" 
-                style={{ width: `${topic.percentage}%` }}
+                style={{ width: `${topic?.percentage}%` }}
               ></div>
             </div>
           </div>
